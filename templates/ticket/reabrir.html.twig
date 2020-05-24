@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reabrir
+{% endblock %}
+{% block stylesheets %}
+	<style>
+		#titulo {
+			background-color: rgb(255, 123, 0);
+			margin-top: 0;
+		}
+	</style>
+
+{% endblock %}
+{% block body %}
+	{{ include('cabecera2Cliente.html.twig') }}
+
+	<div id="titulo">
+		<div class="container-fluid">
+			<div class="row ">
+				<h1 class="col-12 text-center mt-4 mb-4" style="color:white;">Reabrir Ticket</h1>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		<div class="row justify-content-end">
+			<div class="col-12 col-md-6 mt-3 text-right">
+				<a href="{{ path('home_cliente', { 'cliente':app.user}) }}" class="col-12 col-md-3  mb-2 btn btn-primary">Volver a tickets</a>
+			</div>
+
+		</div>
+	</div>
+	<hr>
+	<div class="container">
+		<div class="row">
+			<div class="col-6 mb-2">
+				<p class="font-weight-bold">
+					<span style="color:rgb(255, 123, 0);">
+						Identificador del ticket:</span>
+					{{ ticket.id }}
+				</p>
+			</div>
+			<div class="col-6 mb-2">
+				<p class="text-right font-weight-bold">
+					<span style="color:rgb(255, 123, 0);">Última actualizacion:</span>
+					{{ ticket.fecha ? ticket.fecha|date('d-m-Y H:i') : '' }}
+				</p>
+			</div>
+		</div>
+		<hr>
+		<div class="row">
+
+			<div class="col-12 mb-2 text-center">
+				<p class="font-weight-bold" style="color:rgb(255, 123, 0);">Asunto:</p>
+				<p class="font-weight-bold">{{ ticket.asunto }}</p>
+			</div>
+		</div>
+		<hr>
+
+
+		{{ include('ticket/_formnew.html.twig', {'button_label': 'Reabrir'}) }}
+	</div>
+
+
+{% endblock %}

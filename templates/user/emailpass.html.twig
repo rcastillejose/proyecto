@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+	Cambiar contraseña
+
+
+{% endblock %}
+{% block stylesheets %}
+	<style>
+		#titulo {
+			background-color: rgb(255, 123, 0);
+			margin-top: 0;
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+	<div id="titulo">
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<h5 class="col-12 text-center mt-4 mb-4" style="color:white;">Si has olvidado tu contraseña escribenos tu email para que te la actualicemos</h5>
+					<h6 class="col-12 text-center mt-4 mb-4" style="color:white;">Revisa el correo cuando lo envies.</h6>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<div class="container">
+		<div class="row">
+			<div class="col-12 mt-5 text-center">
+				<a href="{{ path('app_login') }}" class="col-12 col-md-10 mb-2 btn btn-outline-dark mb-5">Vuelve a inicio si te has equivocado</a>
+			</div>
+			<div class="col-12 mt-5 text-center">
+				{% if error == "hola" %}
+					<p class="col-12 text-danger">Ha ocurrido un error en el intento</p>
+				{% endif %}
+				{{ form_start(form) }}
+				{{ form_row(form.email) }}
+				<button class="btn btn-block btn-primary">
+					{{ button_label|default('Solicitar cambio') }}</button>
+				{{ form_end(form) }}
+			</div>
+		</div>
+
+
+	</div>
+
+
+{% endblock %}

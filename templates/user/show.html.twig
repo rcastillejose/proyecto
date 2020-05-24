@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ user.username }}
+{% endblock %}
+
+{% block body %}
+	{{ include('cabecera.html.twig') }}
+
+	{% block contenido %}
+		<div class="container">
+
+
+			<div class="row">
+				<h1 class="col-12 text-center mt-3 mb-4" style="color:rgb(255, 123, 0);">Cliente
+					{{ user.username }}</h1>
+			</div>
+
+			{% if user.cliente == 1 %}
+
+				<a href="{{ path('clientes_index') }}">Lista de clientes</a>
+
+				<table class="table">
+					<tbody>
+						<tr>
+							<th>Id</th>
+							<td>{{ user.id }}</td>
+						</tr>
+						<tr>
+							<th>Username</th>
+							<td>{{ user.username }}</td>
+						</tr>
+						{% if user.email == '' %}
+							<tr>
+								<th>Email</th>
+								<td>{{ user.email }}</td>
+							</tr>
+						{% endif %}
+
+						<tr>
+							<th>Cliente</th>
+							<td>{{ user.cliente ? 'Yes' : 'No' }}</td>
+						</tr>
+						<tr>
+							<th>Admin</th>
+							<td>{{ user.admin ? 'Yes' : 'No' }}</td>
+						</tr>
+					</tbody>
+				</table>
+			{% else %}
+				<h1>Empleado
+					{{ user.username }}
+				</h1>
+				<a href="{{ path('empleados_index') }}">Lista de empleados</a>
+
+
+				<table class="table">
+					<tbody>
+						<tr>
+							<th>Id</th>
+							<td>{{ user.id }}</td>
+						</tr>
+						<tr>
+							<th>Username</th>
+							<td>{{ user.username }}</td>
+						</tr>
+
+						<tr>
+							<th>Cliente</th>
+							<td>{{ user.cliente ? 'Yes' : 'No' }}</td>
+						</tr>
+						<tr>
+							<th>Admin</th>
+							<td>{{ user.admin ? 'Yes' : 'No' }}</td>
+						</tr>
+					</tbody>
+				</table>
+			{% endif %}
+
+
+		</div>
+	{% endblock %}
+{% endblock %}

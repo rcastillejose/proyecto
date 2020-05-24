@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nuevo Ticket
+{% endblock %}
+{% block stylesheets %}
+	<style>
+		#titulo {
+			background-color: rgb(255, 123, 0);
+			margin-top: 0;
+		}
+	</style>
+
+{% endblock %}
+{% block body %}
+	{{ include('cabecera2Cliente.html.twig') }}
+
+	<div id="titulo">
+		<div class="container-fluid">
+			<div class="row ">
+				<h1 class="col-12 text-center mt-4 mb-4" style="color:white;">Crea un nuevo Ticket</h1>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+		<div class="row justify-content-end">
+
+			<div class="col-12 col-md-6 mt-3 text-right">
+				<a href="{{ path('home_cliente', { 'cliente':app.user}) }}" class="col-12 col-md-3  mb-2 btn btn-primary">Ver tus tickets</a>
+			</div>
+
+		</div>
+
+	</div>
+
+	<div class="container">
+		{{ include('ticket/_formnew.html.twig') }}
+
+	</div>
+
+
+{% endblock %}

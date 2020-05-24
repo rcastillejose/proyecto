@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+{% block title %}Chats
+{% endblock %}
+
+{% block body %}
+
+	{{ include('cabecera.html.twig') }}
+
+	{% block contenido %}
+		<div class="container">
+			<div class="row">
+				<h1 class="col-12 text-center mt-4 mb-5" style="color:rgb(255, 123, 0);">Accede a uno de los chats</h1>
+			</div>
+
+			<div class="row justify-content-center ml-2 mr-2 mb-3 mt-5">
+				{% for grupo in grupos %}
+					<a class="col-12 col-md-3 ml-2 mr-2 mt-1 btn btn-lg btn-secondary" href="{{ path('chat', {'group': grupo.Name}) }}">
+						{{ grupo.name }}
+					</a>
+				{% endfor %}
+			</div>
+
+		</div>
+	{% endblock %}
+{% endblock %}

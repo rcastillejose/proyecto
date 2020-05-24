@@ -1,0 +1,28 @@
+<div class="row ">
+	<div class="col-12">
+		{{ form_start(form)  }}
+		<div class="row justify-content-center">
+			<div class="col-4">
+				{{ form_row(form.grupo) }}
+			</div>
+			<div class="col-4">
+				{{ form_row(form.estado) }}
+			</div>
+		</div>
+		<div class="row justify-content-center">
+			<div class="col-12 col-md-9">
+				{{ form_row(form.pregunta) }}
+			</div>
+		</div>
+		<div class="row justify-content-center">
+			<div class="col-12 col-md-9">
+				{{ form_row(form.respuesta) }}
+			</div>
+		</div>
+		<div class="row justify-content-center">
+			<button class="btn col-6 btn-success">
+				{{ button_label|default('Guardar cambios') }}</button>
+			{{ form_end(form) }}
+		</div>
+	</div>
+</div>

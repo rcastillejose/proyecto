@@ -1,0 +1,126 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ticket
+{% endblock %}
+{% block stylesheets %}
+	<style>
+		#titulo {
+			background-color: rgb(255, 123, 0);
+			margin-top: 0;
+		}
+	</style>
+
+{% endblock %}
+{% block body %}
+
+	{{ include('cabecera2Cliente.html.twig') }}
+
+	<div id="titulo">
+		<div class="container-fluid">
+			<div class="row ">
+				<h1 class="col-12 text-center mt-4 mb-4" style="color:white;">Visualización de Ticket</h1>
+			</div>
+		</div>
+	</div>
+
+	<div class="container-fluid">
+
+		{% if ticket.estado.nombre == 'Cerrado' %}
+			<div class="row justify-content-between">
+				<div class="col-12 col-md-6 mt-3">
+					<a href="{{ path('reabrir', {'id': ticket.id}) }}" class="col-12 col-md-3 mb-2 btn btn-danger">Reabrir</a>
+				</div>
+				<div class="col-12 col-md-6 mt-3 text-right">
+					<a href="{{ path('home_cliente', { 'cliente':app.user}) }}" class="col-12 col-md-3  mb-2 btn btn-primary">Volver a tickets</a>
+				</div>
+			</div>
+
+		{% else %}
+			<div class="row justify-content-end">
+				<div class="col-12 col-md-6 mt-3">
+					<h5 class="col-12 mt-2 col-md-5 mb-2 text-danger text-center">
+						A la espera de ser atendido.</h5>
+				</div>
+				<div class="col-12 col-md-6 mt-3 text-right">
+					<a href="{{ path('home_cliente', { 'cliente':app.user}) }}" class="col-12 col-md-3  mb-2 btn btn-primary">Volver a tickets</a>
+				</div>
+			</div>
+		{% endif %}
+		<hr>
+	</div>
+
+	<div class="container">
+
+		<div class="row">
+			<div class="col-6 mb-2 mt-3">
+				<p class="font-weight-bold">
+					<span style="color:rgb(255, 123, 0);">
+						Identificador del ticket:</span>
+					{{ ticket.id }}
+				</p>
+			</div>
+			<div class="col-6 mb-2 mt-3">
+				<p class="text-right font-weight-bold">
+					<span style="color:rgb(255, 123, 0);">Última actualizacion:</span>
+					{{ ticket.fecha ? ticket.fecha|date('d-m-Y H:i') : '' }}
+				</p>
+			</div>
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-12 mb-2 text-center font-weight-bold">
+				<p class="font-weight-bold" style="color:rgb(255, 123, 0);">Asunto:</p>
+				<p>{{ ticket.asunto }}</p>
+			</div>
+		</div>
+		<hr>
+		<div class="row">
+			<div class="col-12 mb-2">
+				<p class="font-weight-bold ml-2" style="color:rgb(255, 123, 0);">Mensaje:</p>
+				<p>{{ ticket.mensaje }}</p>
+			</div>
+		</div>
+
+		{% if ticket.respuesta %}
+			<hr>
+			<div class="row">
+				<div class="col-12 mb-2">
+					<p class="font-weight-bold ml-2" style="color:rgb(255, 123, 0);">Respuesta:</p>
+					<p>{{ ticket.respuesta }}</p>
+				</div>
+			</div>
+			<hr>
+		{% endif %}
+	</div>
+
+
+	<div class="container-fluid">
+		{% if historicos %}
+			<div class="row">
+				<h2 class="col-12 text-center mt-3 mb-5" style="color:rgb(255, 123, 0);">Historico de la conversación</h2>
+			</div>
+			<table class="table table-hover">
+				<tbody>
+					<tr class="bg-success text-light">
+						<th>Fecha</th>
+						<th>Pregunta</th>
+						<th>Respuesta</th>
+					</tr>
+
+					{% for historico in historicos %}
+						<tr>
+							<td>{{ historico.fecha ? historico.fecha|date('Y-m-d H:i') }}</td>
+
+							<td>{{ historico.mensaje }}</td>
+
+							<td>{{ historico.respuesta }}</td>
+						</tr>
+					{% endfor %}
+
+
+				</tbody>
+			</table>
+		{% endif %}
+	</div>
+
+{% endblock %}

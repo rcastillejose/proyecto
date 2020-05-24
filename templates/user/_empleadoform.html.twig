@@ -1,0 +1,25 @@
+<div class="row">
+	<div class="col-12">
+		{{ form_start(form) }}
+		<div class="row justify-content-center">
+			<div class="col-12 col-md-2 mt-md-4 text-center">
+				{{ form_row(form.admin) }}
+			</div>
+			<div class="col-12 col-md-4">
+				{{ form_row(form.grupo) }}
+			</div>
+		</div>
+		<div class="row justify-content-center">
+			<div class="col-12 col-md-8">
+				{{ form_row(form.username) }}
+			</div>
+		</div>
+
+		<div class="row justify-content-center">
+			<button class="btn btn-block btn-success col-md-8 col-12">
+				{{ button_label|default('Guardar') }}
+			</button>
+		</div>
+		{{ form_end(form) }}
+	</div>
+</div>

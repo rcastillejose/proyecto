@@ -1,0 +1,131 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home
+{% endblock %}
+{% block stylesheets %}
+	<style>
+		#titulo {
+			background-color: rgb(255, 123, 0);
+			margin-top: 0;
+		}
+	</style>
+
+{% endblock %}
+{% block body %}
+	{{ include('cabeceraCliente.html.twig') }}
+
+	<div id="titulo">
+		<div class="container-fluid">
+			<div class="row ">
+				<h1 class="col-12 text-center mt-4 mb-4" style="color:white;">Soporte de Tickets</h1>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid">
+
+		<div class="row justify-content-end">
+
+			<div class="col-12 col-md-6 mt-3 text-right">
+				<a href="{{ path('ticket_client_new') }}" class="col-12 col-md-3  mb-2 btn btn-primary">Crea un nuevo ticket</a>
+			</div>
+
+
+		</div>
+		<hr>
+
+		{% if tickets %}
+
+			<div class="row ml-2 mr-2" id="tickets">
+
+
+				<div class="col-12 mb-2">
+					<div class="row justify-content-center">
+						<div class="col-12 col-md-6 mt-1">
+							<input type="text" class="search form-control" placeholder="Buscar"/>
+						</div>
+
+						<div class="col-6 col-md-2 mt-1">
+							<button class="sort btn btn-success col-md-12" data-sort="fecha">
+								Ordenar por fecha
+							</button>
+						</div>
+						<div class="col-6 col-md-2 mt-1">
+							<button class="sort btn btn-success col-md-12" data-sort="estado">
+								Estado
+							</button>
+						</div>
+						<div class="col-6 col-md-2 mt-1">
+							<button class="sort btn btn-success col-md-12" data-sort="asunto">
+								Asunto
+							</button>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="col-12 table-responsive mt-2">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>Fecha</th>
+								<th>Estado</th>
+								<th>Asunto</th>
+								<th>Mensaje</th>
+								<th>Mostrar</th>
+								<th>Reabrir</th>
+							</tr>
+						</thead>
+						<tbody class="list">
+							{% for ticket in tickets %}
+								<tr>
+
+									<td class="fecha">
+										{{ ticket.fecha ? ticket.fecha|date('d-m-Y H:i') }}
+									</td>
+									<td class="estado">
+										{{ ticket.estado }}
+									</td>
+									<td class="asunto">
+										{{ ticket.asunto }}
+									</td>
+									<td class="mensaje">
+										{{ ticket.mensaje }}
+									</td>
+									<td>
+										<a href="{{ path('ticket_show', {'id': ticket.id}) }}" class="btn btn-outline-dark">
+											Mostrar Ticket
+										</a>
+									</td>
+
+									{% if ticket.estado.nombre == 'Cerrado' %}
+										<td>
+											<a href="{{ path('reabrir', {'id': ticket.id}) }}" class="btn btn-outline-danger">Reabrir</a>
+										</td>
+									{% else %}
+										<td></td>
+									{% endif %}
+								</tr>
+							{% endfor %}
+						</tbody>
+
+
+					</table>
+				</div>
+			</div>
+		{% else %}
+			<p>No hay tickets creados, crea uno nuevo</p>
+		{% endif %}
+	</div>
+
+{% endblock %}
+
+{% block javascripts %}
+	<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+	<script>
+		var options = {
+valueNames: ['fecha', 'estado', 'asunto', 'mensaje']
+};
+
+var userList = new List('tickets', options);
+	</script>
+{% endblock %}

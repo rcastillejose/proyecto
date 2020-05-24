@@ -1,0 +1,14 @@
+{{ form_start(form) }}
+{{ form_row(form.username) }}
+{{ form_row(form.email) }}
+{{ form_row(form.password) }}
+
+{# {{ form_row(prod.form.unidades,{ 'label': false, 'attr':{ 'min': '0'}, 'type': 'number', 'value': 1 , 'name': 'unidades'}) }}
+		</div>
+		<div class="input-group-append">
+		    {{ form_row(prod.form.anadir,{ 'attr': {'class': 'text-center btn-outline-primary'} }) }}
+		</div> #}
+{# {{ form_widget(form) }} #}
+
+	<button class="btn btn-block btn-success"> {{ button_label|default('Registrar') }}</button>
+{{ form_end(form) }}

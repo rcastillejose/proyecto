@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Responder
+{% endblock %}
+{% block stylesheets %}
+	<style>
+		#titulo {
+			background-color: rgb(255, 123, 0);
+			margin-top: 0;
+		}
+	</style>
+{% endblock %}
+{% block body %}
+	{{ include('cabecera.html.twig') }}
+
+	{% block contenido %}
+		<div class="container">
+
+			<div id="titulo">
+				<div class="container">
+					<div class="row ">
+						<h1 class="col-12 text-center mt-4 mb-4" style="color:white;">Responder a
+							{{ ticket.cliente.username }}</h1>
+					</div>
+				</div>
+			</div>
+
+			<div class="row justify-content-between mr-2 ml-2 mt-1">
+				{% if app.user.admin == 1 %}
+					<div class="col-12 col-md-3 mt-2">
+						<a href="{{ path('ticket_index') }}" class="btn btn-primary col-11">Tickets Todos</a>
+					</div>
+					<div class="col-12 col-md-3 mt-2">
+						<a href="{{ path('ticket_index_soporte', {'group': app.user.grupo}) }}" class="btn btn-primary col-11 ">Tickets</a>
+					</div>
+				{% else %}
+					<div class="col-12 col-md-6 mt-2">
+						<a href="{{ path('ticket_index_soporte', {'group': app.user.grupo}) }}" class="btn btn-primary col-11 col-md-3">Tickets grupales</a>
+					</div>
+				{% endif %}
+
+			</div>
+
+			<hr>
+
+
+			<div class="row ml-2 mr-2">
+				<div class="col-6 mt-1">
+					<p class="font-weight-bold">
+						<span style="color:rgb(255, 123, 0);">
+							Identificador del ticket:</span>
+						{{ ticket.id }}
+					</p>
+				</div>
+				<div class="col-6 mt-1">
+					<p class="text-right font-weight-bold">
+						<span style="color:rgb(255, 123, 0);">Última actualizacion:</span>
+						{{ ticket.fecha ? ticket.fecha|date('d-m-Y H:i') : '' }}
+					</p>
+				</div>
+			</div>
+
+			<hr class="mb-4">
+			<div class="row ml-2 mr-2">
+				<div class="col-12 mb-2 text-center font-weight-bold">
+					<p class="font-weight-bold" style="color:rgb(255, 123, 0);">Asunto:</p>
+					<p>{{ ticket.asunto }}</p>
+				</div>
+			</div>
+			<hr class="mb-4">
+			<div class="row ml-2 mr-2">
+				<div class="col-12 mb-2">
+					<p class="font-weight-bold ml-2" style="color:rgb(255, 123, 0);">Mensaje:</p>
+					<p>{{ ticket.mensaje }}</p>
+				</div>
+			</div>
+			<hr class="mb-4">
+			{{ include('ticket/_form.html.twig', {'button_label': 'Responder'}) }}
+
+
+		</div>
+	{% endblock %}
+	{# {{ include('ticket/_delete_form.html.twig') }} #}
+{% endblock %}

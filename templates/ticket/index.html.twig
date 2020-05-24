@@ -1,0 +1,159 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Indice de Tickets
+{% endblock %}
+
+{% block body %}
+	{{ include('cabecera.html.twig') }}
+
+	{% block contenido %}
+		<div class="container">
+			<div class="row" id="tickets">
+
+				{% if not historico %}
+					<h1 class="col-12 text-center mt-3 mb-5" style="color:rgb(255, 123, 0);">Solucionar Tickets</h1>
+				{% else %}
+					<h1 class="col-12 text-center mt-3 mb-5" style="color:rgb(255, 123, 0);">Historico de Tickets</h1>
+				{% endif %}
+
+				<div class="col-12 mb-2">
+					<div class="row justify-content-center">
+						<div class="col-12 col-md-6 mt-1">
+							<input type="text" class="search form-control" placeholder="Buscar"/>
+						</div>
+
+						<div class="col-6 col-md-1 mt-1">
+							<button class="sort btn btn-success col-md-12" data-sort="cliente">
+								Cliente
+							</button>
+						</div>
+						<div class="col-6 col-md-1 mt-1">
+							<button class="sort btn btn-success col-md-12" data-sort="empleado">
+								Empleado
+							</button>
+						</div>
+						<div class="col-6 col-md-1 mt-1">
+							<button class="sort btn btn-success col-md-12" data-sort="fecha">
+								Fecha
+							</button>
+						</div>
+
+						<div class="col-6 col-md-1 mt-1">
+							<button class="sort btn btn-success col-md-12" data-sort="asunto">
+								Asunto
+							</button>
+						</div>
+						{% if historico %}
+							<div class="col-12 col-md-1 mt-1">
+								<button class="sort btn btn-success col-md-12" data-sort="grupo">
+									grupo
+								</button>
+							</div>
+						{% endif %}
+					</div>
+				</div>
+				{% if tickets %}
+					<div class="table-responsive mt-2 ml-3 mr-3">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>Id</th>
+									<th>Fecha</th>
+									{% if app.user.admin == 1 %}
+										<th>Grupo</th>
+									{% endif %}
+									<th>Cliente</th>
+									<th>Empleado</th>
+									<th>Estado</th>
+									<th>Asunto</th>
+									{% if not historico %}
+										<th>Transferir</th>
+										<th>Responder</th>
+										<th>Adquirir</th>
+									{% endif %}
+									<th>Mostrar</th>
+								</tr>
+							</thead>
+
+							<tbody class="list">
+								{% for ticket in tickets %}
+									<tr>
+										<td class="id">{{ ticket.id }}</td>
+										{# <td>{{ ticket.fecha ? ticket.fecha|date('Y-m-d H:i:s') : '' }}</td> #}
+										<td class="fecha">{{ ticket.fecha ? ticket.fecha|date('d-m-Y H:i') }}</td>
+										{% if app.user.admin == 1 %}
+											<td class="grupo">{{ ticket.grupo }}</td>
+										{% endif %}
+										<td class="cliente">{{ ticket.cliente }}</td>
+										<td class="empleado">{{ ticket.empleado }}</td>
+										<td class="estado">{{ ticket.estado }}</td>
+										<td class="asunto">{{ ticket.asunto }}</td>
+
+										{% if not historico %}
+											{% if (ticket.empleado == null) or (ticket.empleado.username == app.user.username) or ( app.user.admin == 1 ) %}
+												<td>
+													<a href="{{ path('transferir', {'id': ticket.id}) }}" class="btn btn-outline-danger">transferir</a>
+												</td>
+											{% else %}
+												<td></td>
+											{% endif %}
+
+											{% if (ticket.empleado == app.user) or (ticket.empleado == null) %}
+												<td>
+													<a href="{{ path('ticket_responder', {'id': ticket.id }) }}" class="btn btn-outline-success">responder</a>
+												</td>
+											{% else %}
+												<td></td>
+											{% endif %}
+
+
+											{% if (ticket.empleado == null) or ( app.user.admin == 1 ) %}
+												{% if ticket.empleado != app.user %}
+													<td>
+														<a href="{{ path('adquirir', {'id': ticket.id, 'empleado': app.user.username }) }}" class="btn btn-outline-primary">adquirir</a>
+													</td>
+												{% else %}
+													<td></td>
+												{% endif %}
+											{% else %}
+												<td></td>
+											{% endif %}
+											<td>
+												<a href="{{ path('ticket_show', {'id': ticket.id, 'hist':null}) }}" class="btn btn-outline-dark">Mostrar</a>
+											</td>
+										{% else %}
+											<td>
+												<a href="{{ path('ticket_show', {'id': ticket.id, 'hist':'hist' }) }}" class="btn btn-outline-dark">Mostrar</a>
+											</td>
+										{% endif %}
+									</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				{% else %}
+					<h3 class="col-12">
+						Has acabado por hoy.</h3>
+				{% endif %}
+			</div>
+		</div>
+	{% endblock %}
+{% endblock %}
+{% block javascripts %}
+	<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+	<script>
+		var options = {
+valueNames: [
+'id',
+'fecha',
+'cliente',
+'grupo',
+'empleado',
+'estado',
+'asunto'
+]
+};
+
+var userList = new List('tickets', options);
+	</script>
+{% endblock %}

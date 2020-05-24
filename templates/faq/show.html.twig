@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mostrar FAQ
+{% endblock %}
+{% block stylesheets %}
+	<style>
+		#titulo {
+			background-color: rgb(255, 123, 0);
+			margin-top: 0;
+		}
+	</style>
+{% endblock %}
+{% block body %}
+	{{ include('cabecera.html.twig') }}
+
+	{% block contenido %}
+		<div class="container">
+
+			<div id="titulo">
+				<div class="container">
+					<div class="row ">
+						<h1 class="col-12 text-center mt-4 mb-4" style="color:white;">Mostrar FAQ</h1>
+					</div>
+				</div>
+			</div>
+
+			<div class="row justify-content-between mr-2 ml-2 text-center">
+				<div class="col-12 col-md-4 mt-3">
+					<a href="{{ path('faq_edit', {'id': faq.id}) }}" class="col-12 col-md-10 mb-2 btn btn-success">Editar</a>
+				</div>
+				<div class="col-12 col-md-4 mt-3">
+					<a href="{{ path('faq_index') }}" class="col-12 col-md-10 mb-2 btn btn-primary">Volver a la lista</a>
+				</div>
+				<div class="col-12 col-md-4 mt-3">
+					{{ include('faq/_delete_form.html.twig') }}
+				</div>
+			</div>
+
+
+			<hr class="mb-4">
+			<div class="row ml-2 mr-2 text-center">
+				<div class="col-12 col-md-4">
+					<p class="font-weight-bold">
+						<span style="color:rgb(255, 123, 0);">
+							Identificador del FAQ:</span>
+						{{ faq.id }}
+					</p>
+				</div>
+				<div class="col-12 col-md-4">
+					<p class="font-weight-bold">
+						<span style="color:rgb(255, 123, 0);">
+							Creador:</span>
+						{{ faq.user }}
+					</p>
+				</div>
+				<div class="col-12 col-md-4">
+					<p class="font-weight-bold">
+						<span style="color:rgb(255, 123, 0);">Última actualizacion:</span>
+						{{ faq.fecha ? faq.fecha|date('d-m-Y H:i') : '' }}
+					</p>
+				</div>
+			</div>
+			<hr class="mb-4">
+			<div class="row ml-2 mr-2">
+				<div class="col-12 mb-2 text-center font-weight-bold">
+					<p class="font-weight-bold" style="color:rgb(255, 123, 0);">Pregunta:</p>
+					<p>{{ faq.pregunta }}</p>
+				</div>
+			</div>
+			<hr class="mb-4">
+			<div class="row ml-2 mr-2 justify-content-center">
+				<div class="col-12 col-md-8 mb-2">
+					<p class="font-weight-bold ml-2" style="color:rgb(255, 123, 0);">Respuesta:</p>
+					<p>{{ faq.respuesta }}</p>
+				</div>
+			</div>
+
+
+		</div>
+	{% endblock %}
+
+{% endblock %}

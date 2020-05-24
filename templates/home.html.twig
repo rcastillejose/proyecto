@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+{% block title %}home
+{% endblock %}
+
+{% block body %}
+
+	{{ include('cabecera.html.twig') }}
+
+	{% block contenido %}
+		<div class="container">
+			{% if app.user %}
+				<div class="mb-3 mt-3">
+					Te has loggeado como
+					{{ app.user.username }},
+					<a href="{{ path('app_logout') }}">Logout</a>
+				</div>
+			{% endif %}
+
+			{% if grupos %}
+				<ul>
+					{% for grupo in grupos %}
+						<li>
+							<a href="{{ path('chat', {'group': grupo.Name}) }}">
+								{{ grupo.Name }}
+							</a>
+						</li>
+					{% endfor %}
+				</ul>
+			{% endif %}
+		</div>
+	{% endblock %}
+{% endblock %}

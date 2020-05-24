@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Transferir
+{% endblock %}
+
+{% block stylesheets %}
+	<style>
+		#titulo {
+			background-color: rgb(255, 123, 0);
+			margin-top: 0;
+		}
+	</style>
+{% endblock %}
+{% block body %}
+	{{ include('cabecera.html.twig') }}
+
+	{% block contenido %}
+		<div class="container">
+
+			<div id="titulo">
+				<div class="container">
+					<div class="row ">
+						<h1 class="col-12 text-center mt-4 mb-4" style="color:white;">Transferir a empleado</h1>
+					</div>
+				</div>
+			</div>
+
+			<div class="row justify-content-between mt-3 text-center">
+				<div class="col-12 col-md-6 mt-2">
+					<a href="{{ path('ticket_responder', {'id': ticket.id}) }}" class="btn btn-success col-11">Responder</a>
+				</div>
+				{% if app.user.admin == 1 %}
+					<div class="col-12 col-md-3 mt-2">
+						<a href="{{ path('ticket_index') }}" class="btn btn-primary col-11">Tickets totales</a>
+					</div>
+					<div class="col-12 col-md-3 mt-2">
+						<a href="{{ path('ticket_index_soporte', {'group': app.user.grupo}) }}" class="btn btn-primary col-11">Tickets</a>
+					</div>
+				{% else %}
+					<div class="col-12 col-md-6 mt-2">
+						<a href="{{ path('ticket_index_soporte', {'group': app.user.grupo}) }}" class="btn btn-primary col-11 col-md-3">Tickets grupales</a>
+					</div>
+				{% endif %}
+
+
+			</div>
+
+			<hr>
+
+			<div class="row">
+				<h4 class="col-12 text-center mt-3 mb-3" style="color:rgb(255, 123, 0);">Transferir a grupo</h4>
+			</div>
+
+			<div class="row justify-content-center ml-2 mr-2 mb-5">
+				{% for grupo in grupos %}
+					<a class="col-12 col-md-3 ml-2 mr-2 mt-1 btn btn-outline-secondary" href="{{ path('transferir_grupo', {'id': ticket.id,'grupo': grupo.name}) }}">{{ grupo.name }}</a>
+				{% endfor %}
+			</div>
+
+			<hr>
+			<div class="row">
+				<div class="col-6 text-center">
+					<h5 class="col-12 mt-3 mb-3" style="color:rgb(255, 123, 0);">Elije el Grupo</h5>
+					<a class="col-10 ml-2 mr-2 mt-1 btn btn-outline-dark" href="{{ path('transferir', {'id': ticket.id}) }}">Todos los empleados</a>
+					{% for grupo in grupos %}
+						<a class="col-10 ml-2 mr-2 mt-1 btn btn-outline-dark" href="{{ path('transferir', {'id': ticket.id,'grupo': grupo.name}) }}">
+							{{ grupo.name }}
+						</a>
+					{% endfor %}
+				</div>
+				<div class="col-6 mt-1 ">
+					<h4 class="col-12 mt-3 mb-3" style="color:rgb(255, 123, 0);">Elije el empleado</h4>
+					{% for empleado in empleados %}
+						{% if empleado.username != app.user.username %}
+							<a class="col-7 ml-2 mr-2 mt-1 btn btn-outline-secondary" href="{{ path('transferir', {'id': ticket.id, 'grupo': empleado.username, 'empleado': empleado.username }) }}">
+								{{ empleado.username }}
+							</a>
+						{% endif %}
+					{% endfor %}
+				</div>
+
+			</div>
+
+
+		</div>
+	{% endblock %}
+{% endblock %}

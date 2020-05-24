@@ -1,0 +1,113 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}FAQS
+{% endblock %}
+
+{% block body %}
+	{{ include('cabecera.html.twig') }}
+
+	{% block contenido %}
+		<div class="container">
+			<div class="row" id="faqs">
+
+				<h1 class="col-12 text-center mt-3 " style="color:rgb(255, 123, 0);">FAQ</h1>
+				<p class="col-12 text-center">Resuelve aquí tus dudas</p>
+				<div class="col-12">
+					<div class="row justify-content-center">
+						<a href="{{ path('faq_new') }}" class="col-12 col-md-3  mb-2 btn btn-primary">Añadir Nuevo</a>
+					</div>
+				</div>
+
+				<div class="col-12 mb-2">
+					<div class="row justify-content-center">
+						<div class="col-12 col-md-6 mt-1">
+							<input type="text" class="search form-control" placeholder="Buscar"/>
+						</div>
+
+						<div class="col-6 col-md-1 mt-1">
+							<button class="sort btn btn-success col-md-12" data-sort="user">
+								Usuario
+							</button>
+						</div>
+						<div class="col-6 col-md-1 mt-1">
+							<button class="sort btn btn-success col-md-12" data-sort="fecha">
+								Fecha
+							</button>
+						</div>
+						<div class="col-6 col-md-1 mt-1">
+							<button class="sort btn btn-success col-md-12" data-sort="estado">
+								Estado
+							</button>
+						</div>
+						<div class="col-6 col-md-1 mt-1">
+							<button class="sort btn btn-success col-md-12" data-sort="grupo">
+								Grupo
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-12 table-responsive mt-2">
+					<table class="table table-striped">
+						<thead>
+							<tr>
+								<th>Usuario</th>
+								<th>Fecha</th>
+								<th>Estado</th>
+								<th>Grupo</th>
+								<th>Pregunta</th>
+								<th>Mostrar</th>
+								<th>Editar</th>
+							</tr>
+						</thead>
+						<tbody class="list">
+							{% for faq in faqs %}
+								<tr>
+									<td class="user">{{ faq.user }}</td>
+									<td class="fecha">{{ faq.fecha ? faq.fecha|date('d-m-Y H:i') : '' }}</td>
+									<td class="estado">{{ faq.estado }}</td>
+									<td class="grupo">{{ faq.grupo }}</td>
+									<td class="pregunta">{{ faq.pregunta }}</td>
+									<td>
+										<a href="{{ path('faq_show', {'id': faq.id}) }}" class="btn btn-outline-dark">Mostrar</a>
+										{% if faq.estado == "Cerrado" %}
+											{% if faq.user == app.user.username %}
+												<td>
+													<a href="{{ path('faq_edit', {'id': faq.id}) }}" class="btn btn-outline-success">Editar</a>
+												</td>
+											{% else %}
+												<td></td>
+											{% endif %}
+										{% else %}
+											<td>
+												<a href="{{ path('faq_edit', {'id': faq.id}) }}" class="btn btn-outline-success">Editar</a>
+											</td>
+										{% endif %}
+									</td>
+								</tr>
+
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	{% endblock %}
+{% endblock %}
+
+{% block javascripts %}
+	<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+	<script>
+		var options = {
+valueNames: [
+'user',
+'fecha',
+'estado',
+'grupo',
+'pregunta'
+]
+};
+
+var userList = new List('faqs', options);
+	</script>
+{% endblock %}

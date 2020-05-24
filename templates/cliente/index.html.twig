@@ -1,0 +1,127 @@
+{% extends 'base.html.twig' %}
+{% block title %}Home
+{% endblock %}
+{% block stylesheets %}
+	<style>
+		#titulo {
+			background-color: rgb(255, 123, 0);
+			margin-top: 0;
+		}
+	</style>
+
+{% endblock %}
+{% block body %}
+	{{ include('cabecera2Cliente.html.twig') }}
+
+	<div id="titulo">
+		<div class="container-fluid">
+			<div class="row ">
+				<h1 class="col-12 text-center mt-4 mb-4" style="color:white;">Portal de atención al cliente</h1>
+			</div>
+		</div>
+	</div>
+	<div class="container-fluid">
+		<div class="row justify-content-end">
+
+			<div class="col-12 col-md-6 mt-3 text-right">
+				<a href="{{ path('ticket_client_new') }}" class="col-12 col-md-3  mb-2 btn btn-primary">Crea un nuevo ticket</a>
+			</div>
+
+
+		</div>
+		<hr>
+		{% if tickets %}
+
+			<div class="row">
+
+
+				{% for ticket in tickets %}
+
+					<div class="col-12 col-md-4 mb-3 mt-3">
+						<div class="card bg-light text-dark">
+
+							<div class="card-body list">
+
+								<div class="card-title row">
+									<p class="col-6 text-left fecha">{{ ticket.fecha ? ticket.fecha|date('d-m-Y H:i') }}</p>
+									<p class="col-6 text-right estado">{{ ticket.estado }}</p>
+								</div>
+
+								<hr>
+								<div class="card-text">
+									<p class="asunto">
+										{{ ticket.asunto }}
+									</p>
+								</div>
+								<hr>
+								{% if ticket.empleado %}
+									<p class="card-text text-muted small text-right">
+										Atendido por:
+										{{ ticket.empleado}}
+									</p>
+								{% else %}
+									<p class="card-text text-muted small text-right">En breves te atenderemos</p>
+								{% endif %}
+								{% if ticket.estado.nombre == 'Cerrado' %}
+									<div class="input-group justify-content-between col-12 mt-2">
+										<div class="form-group col-6 ">
+											<a href="{{ path('ticket_show', {'id': ticket.id}) }}" class="btn btn-outline-dark">
+												Mostrar
+											</a>
+										</div>
+
+										<div class="col-6 text-right">
+											<a href="{{ path('reabrir', {'id': ticket.id}) }}" class="btn btn-outline-danger">
+												Reabrir
+											</a>
+										</div>
+									</div>
+								{% else %}
+									<div class="input-group justify-content-start col-12 mt-2">
+										<div class="form-group col-6">
+											<a href="{{ path('ticket_show', {'id': ticket.id}) }}" class="btn btn-outline-dark">
+												Mostrar
+											</a>
+										</div>
+									</div>
+								{% endif %}
+
+							</div>
+						</div>
+					</div>
+
+				{% endfor %}
+			</div>
+
+		{% else %}
+			<h3 class="col-12 mt-3 mb-3">Bienvenido a su portal de Atención al Cliente sr/sra:
+				{{ app.user }}</h3>
+			<p>No hay tickets creados, crea uno nuevo para continuar</p>
+		{% endif %}
+	</div>
+
+
+{% endblock %}
+
+{% block javascripts %}
+	<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+	<script>
+		var options = {
+valueNames: ['fecha', 'estado', 'asunto']
+};
+
+var userList = new List('tickets', options);
+
+var estados = document.querySelectorAll('.estado');
+for (let i = 0; i < estados.length; i++) {
+if (estados[i].innerHTML == 'Cerrado') {
+estados[i].style.color = "red";
+} else if (estados[i].innerHTML == 'Abierto') {
+estados[i].style.color = "green";
+} else {
+estados[i].style.color = "#0069d9";
+}
+console.log(estados[i]);
+}
+	</script>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% block stylesheet %}
+	<link rel="stylesheet" href="{{ asset('css/cabecera.css') }}">
+{% endblock %}
+
+
+<div
+	class="d-flex" id="wrapper">
+
+	<!-- Sidebar -->
+	<div class="bg-light border-right" id="sidebar-wrapper">
+		<div class="sticky-top">
+			<div class="sidebar-heading">
+				<a href=""><img src="{{ asset('img/logo2.png') }}" width="200" alt=""></a>
+			</div>
+			<div class="list-group list-group-flush">
+				<a href="{{ path('ticket_index_soporte', {'group': app.user.grupo.Name} )}}" class="list-group-item list-group-item-action bg-light">Tickets</a>
+				{% if app.user.admin == 1 %}
+					<a href="{{ path('ticket_index' )}}" class="list-group-item list-group-item-action bg-light">Tickets Todos</a>
+				{% endif %}
+				<a href="{{ path('chats') }}" class="list-group-item list-group-item-action bg-light">Chats</a>
+				<a href="{{ path('faq_index') }}" class="list-group-item list-group-item-action bg-light">FAQ</a>
+				<a href="{{ path('clientes_index') }}" class="list-group-item list-group-item-action bg-light">Clientes</a>
+				{% if app.user.admin == 1 %}
+					<a href="{{ path('empleados_index') }}" class="list-group-item list-group-item-action bg-light">Empleados</a>
+				{% endif %}
+				<a href="{{ path('tickets_historico') }}" class="list-group-item list-group-item-action bg-light">Histórico Tickets</a>
+			</div>
+		</div>
+	</div>
+	<!-- /#sidebar-wrapper -->
+
+	<!-- Page Content -->
+	<div id="page-content-wrapper">
+
+		<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom sticky-top">
+			<button class="btn btn-outline-primary" id="menu-toggle">O</button>
+
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+					<li class="nav-item active">
+						<a class="nav-link" href="{{ path('ticket_index_soporte', { 'group': app.user.grupo }) }}">Home
+
+						</a>
+					</li>
+
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							{{ app.user.username }}
+						</a>
+						<div
+							class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+
+							<!-- <div class="dropdown-divider"></div> -->
+							<a class="dropdown-item" href="{{ path('app_logout') }}">Logout</a>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</nav>
+
+
+		{% block javascripts %}
+		<script src="{{ asset('js/cabecera.js') }}"></script {% endblock %}

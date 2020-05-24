@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar FAQ
+{% endblock %}
+{% block stylesheets %}
+	<style>
+		#titulo {
+			background-color: rgb(255, 123, 0);
+			margin-top: 0;
+		}
+	</style>
+{% endblock %}
+{% block body %}
+	{{ include('cabecera.html.twig') }}
+
+	{% block contenido %}
+		<div class="container">
+
+			<div id="titulo">
+				<div class="container">
+					<div class="row ">
+						<h1 class="col-12 text-center mt-4 mb-4" style="color:white;">Editar FAQ</h1>
+					</div>
+				</div>
+			</div>
+
+			<div class="row justify-content-between text-center">
+				<div class="col-12 col-md-4 mt-3">
+					<a href="{{ path('faq_index') }}" class="col-12 col-md-10 mb-2 btn btn-primary">Volver a la lista</a>
+				</div>
+				<div class="col-12 col-md-4 mt-3">
+					{{ include('faq/_delete_form.html.twig') }}
+				</div>
+			</div>
+			<hr>
+
+			{{ include('faq/_form.html.twig', {'button_label': 'Guardar cambios'}) }}
+
+		</div>
+	{% endblock %}
+
+{% endblock %}

@@ -1,0 +1,82 @@
+{# templates/chat/index.html.twig #}
+{% extends 'base.html.twig' %}
+{% block title %}
+	{{ grupo.name }}
+{% endblock %}
+{% block stylesheets %}
+	<style></style>
+{% endblock %}
+{% block body %}
+	{{ include('cabecera.html.twig') }}
+
+	{% block contenido %}
+		<div class="container">
+			<div class="row">
+				<div class="col-12">
+					<div id="mercure-content-receiver">
+						{% if mensajes %}
+							{% for mensaje in mensajes %}
+								{% if mensaje.user.id != app.user.id %}
+									<div class="row">
+										<div class="col-6 justify-content-start d-flex">
+											<div class="message bg-secondary col-12 ml-4 mt-2 bg-dark text-light d-flex align-items-center rounded justify-content-start" style="min-height: 70px;">
+												<p class="mt-3" style="word-wrap: break-word; padding:5px; max-width: 100%; " align="left">
+													<small>{{ mensaje.user.userName }}</small><br>
+													{{ mensaje.mensaje }}
+													<br><small>{{ mensaje.Fecha | date("H:i")}}</small>
+												</p>
+											</div>
+										</div>
+									</div>
+								{% else %}
+
+									<div class="row justify-content-end">
+										<div class="col-6 justify-content-end d-flex">
+											<div class="message bg-secondary col-12 mr-4 mt-2 bg-secondary text-light d-flex align-items-center rounded justify-content-end" style="min-height: 70px;">
+												<p class="mt-3" style="word-wrap: break-word; padding:5px; max-width: 100%;" align="right">{{ mensaje.mensaje }}
+													|
+													<br><small>{{ mensaje.Fecha | date("d/m/Y H:i")}}</small>
+												</p>
+											</div>
+
+										</div>
+									</div>
+
+								{% endif %}
+							{% endfor %}
+						{% endif %}
+					</div>
+				</div>
+			</div>
+			<div class="row bg-light mt-3 ">
+				<div class="col-12">
+
+					<form id="mercure-message-form" action="{{ path('sendMessage') }}" method="post">
+						<div class="row justify-content-start ml-4 text-center mb-1">
+							<div class="col-8"><br>
+								<input type="text" id="mercure-message-input" name="message" class="rounded col-12 form-control" placeholder="Escribe aquí tu mensaje..."/>
+							</div>
+							<div class="col-2">
+								<br>
+								<input type="submit" id="mercure-message-btn" value="Send" class="btn btn-primary col-12"/>
+							</div>
+
+						</div>
+						<label for="mercure-message-input"></label>
+
+
+						<input type="hidden" id="groupName" name="groupName" value='{{ grupo.Name }}'>
+						<input type="hidden" id="userName" name="userName" value='{{ app.user.userName }}'>
+					</form>
+				</div>
+			</div>
+
+		</div>
+	{% endblock %}
+{% endblock %}
+{% block javascripts %}
+	<script>
+		const url = new URL('{{ mercure_publish_url }}');
+	</script>
+	<script src="{{ asset("js/chat.js") }}"></script>
+{% endblock %}

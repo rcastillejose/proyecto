@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nuevo Empleado
+{% endblock %}
+{% block stylesheets %}
+	<style>
+		#titulo {
+			background-color: rgb(255, 123, 0);
+			margin-top: 0;
+		}
+	</style>
+{% endblock %}
+{% block body %}
+	{{ include('cabecera.html.twig') }}
+
+	{% block contenido %}
+
+		<div class="container">
+			<div id="titulo">
+				<div class="container">
+					<div class="row ">
+						<h1 class="col-12 text-center mt-4 mb-4" style="color:white;">Nuevo Empleado</h1>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="row justify-content-end mt-3 mr-3 ml-3">
+
+				<div class="col-12 col-md-4">
+					<a href="{{ path('empleados_index') }}" class="col-12  mb-2 btn btn-primary">Lista de empleados</a>
+				</div>
+			</div>
+
+			<hr>
+
+
+			{{ include('user/_newEmpleadoform.html.twig') }}
+		</div>
+	{% endblock %}
+{% endblock %}

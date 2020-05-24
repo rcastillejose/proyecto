@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Clientes
+{% endblock %}
+{% block stylesheets %}{% endblock %}
+{% block body %}
+
+	{{ include('cabecera.html.twig') }}
+
+	{% block contenido %}
+		<div class="container">
+
+			<div class="row mb-4">
+				<h1 class="col-12 text-center mt-3" style="color:rgb(255, 123, 0);">Listado de Clientes</h1>
+			</div>
+
+			<div class="row" id="users">
+
+
+				<div class="col-12">
+					<div class="row justify-content-center">
+						<a href="{{ path('cliente_new') }}" class="col-12 col-md-3  mb-2 btn btn-primary">Añadir Nuevo</a>
+					</div>
+				</div>
+
+
+				<div class="col-12 mb-2">
+					<div class="row justify-content-center">
+						<div class="col-6">
+							<input type="text" class="search form-control" placeholder="Buscar"/>
+						</div>
+
+						<div class="col-2">
+							<button class="sort btn btn-success col-md-12" data-sort="name">
+								ordenar
+							</button>
+						</div>
+					</div>
+				</div>
+
+				<div class="col-12 table-responsive mt-2">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Id</th>
+								<th>Username</th>
+								<th>Email</th>
+
+								<th>Editar</th>
+							</tr>
+						</thead>
+						<tbody class="list">
+							{% for user in users %}
+								<tr>
+									<td class="id">{{ user.id }}</td>
+									<td class="name">{{ user.username }}</td>
+									<td class="email">{{ user.email }}</td>
+									<td>
+										<a href="{{ path('cliente_edit', {'id': user.id}) }}" class="btn btn-outline-success">Editar</a>
+									</td>
+
+
+								</tr>
+							{% else %}
+								<tr>
+									<td colspan="7">No hay ningún cliente todavía.</td>
+								</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	{% endblock %}
+{% endblock %}
+
+{% block javascripts %}
+	<script src="//cdnjs.cloudflare.com/ajax/libs/list.js/1.5.0/list.min.js"></script>
+	<script>
+		var options = {
+valueNames: ['name', 'email', 'id']
+};
+
+var userList = new List('users', options);
+	</script>
+{% endblock %}

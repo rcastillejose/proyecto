@@ -1,0 +1,158 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ticket
+{% endblock %}
+
+{% block stylesheets %}
+	<style>
+		#titulo {
+			background-color: rgb(255, 123, 0);
+			margin-top: 0;
+		}
+	</style>
+{% endblock %}
+{% block body %}
+
+
+	{{ include('cabecera.html.twig') }}
+
+	{% block contenido %}
+
+		<div class="container">
+
+			<div id="titulo">
+				<div class="container">
+					<div class="row ">
+						<h1 class="col-12 text-center mt-4 mb-4" style="color:white;">Mostrar Ticket</h1>
+					</div>
+				</div>
+			</div>
+
+			{% if ticket.estado.nombre == 'Abierto' %}
+				<div class="row justify-content-between mr-2 ml-2">
+					{% if ticket.empleado == app.user %}
+						<div class="col-12 col-md-6 mt-3">
+							<a href="{{ path('ticket_responder', {'id': ticket.id}) }}" class="col-12 col-md-10 mb-2 btn btn-success">Responder</a>
+						</div>
+					{% endif %}
+					{% if app.user.admin == 1 %}
+						<div class="col-12 col-md-3 mt-3">
+							<a href="{{ path('ticket_index') }}" class="btn btn-primary col-11">Tickets totales</a>
+						</div>
+						<div class="col-12 col-md-3 mt-3">
+							<a href="{{ path('ticket_index_soporte', {'group': app.user.grupo}) }}" class="btn btn-primary col-11 ">Tickets</a>
+						</div>
+					{% else %}
+						<div class="col-12 col-md-6 mt-3">
+							<a href="{{ path('ticket_index_soporte', {'group': app.user.grupo}) }}" class="btn btn-primary col-11 col-md-12">Tickets grupales</a>
+						</div>
+					{% endif %}
+
+				</div>
+
+			{% else %}
+				{% if hist == 'hist' %}
+					<div class="row justify-content-end">
+						<div class="col-12 col-md-6 mt-3 mr-2 text-right">
+							<a href="{{ path('tickets_historico') }}" class="col-12 col-md-3  mb-2 btn btn-primary">Volver a historico</a>
+						</div>
+					</div>
+				{% else %}
+
+					{% if app.user.admin == 1 %}
+						<div class="col-12 col-md-3 mt-2">
+							<a href="{{ path('ticket_index') }}" class="btn btn-primary col-11">Tickets totales</a>
+						</div>
+						<div class="col-12 col-md-3 mt-2">
+							<a href="{{ path('ticket_index_soporte', {'group': app.user.grupo}) }}" class="btn btn-primary col-11 ">Tickets</a>
+						</div>
+					{% else %}
+						<div class="col-12 col-md-6 mt-2">
+							<a href="{{ path('ticket_index_soporte', {'group': app.user.grupo}) }}" class="btn btn-primary col-11 col-md-3">Tickets grupales</a>
+						</div>
+					{% endif %}
+				{% endif %}
+			{% endif %}
+
+
+			<hr class="mb-4">
+			<div class="row ml-2 mr-2 justify-content-center text-center">
+				<div class="col-12 col-md-4">
+					<p class="font-weight-bold">
+						<span style="color:rgb(255, 123, 0);">
+							Identificador del ticket:</span>
+						{{ ticket.id }}
+					</p>
+				</div>
+				<div class="col-12 col-md-4">
+					<p class="font-weight-bold">
+						<span style="color:rgb(255, 123, 0);">
+							Cliente:</span>
+						{{ ticket.cliente }}
+					</p>
+				</div>
+				<div class="col-12 col-md-4">
+					<p class="font-weight-bold">
+						<span style="color:rgb(255, 123, 0);">Última actualizacion:</span>
+						{{ ticket.fecha ? ticket.fecha|date('d-m-Y H:i') : '' }}
+					</p>
+				</div>
+			</div>
+			<hr class="mb-4">
+			<div class="row ml-2 mr-2 justify-content-center">
+				<div class="col-12 col-md-8 mb-2 text-center font-weight-bold">
+					<p class="font-weight-bold" style="color:rgb(255, 123, 0);">Asunto:</p>
+					<p>{{ ticket.asunto }}</p>
+				</div>
+			</div>
+			<hr class="mb-4">
+			<div class="row ml-2 mr-2 justify-content-center">
+				<div class="col-12 col-md-8 mb-2">
+					<p class="font-weight-bold ml-2" style="color:rgb(255, 123, 0);">Mensaje:</p>
+					<p>{{ ticket.mensaje }}</p>
+				</div>
+			</div>
+			{% if ticket.respuesta %}
+				<hr class="mb-4">
+				<div class="row ml-2 mr-2 justify-content-center">
+					<div class="col-12 col-md-8 mb-2">
+						<p class="font-weight-bold ml-2" style="color:rgb(255, 123, 0);">Respuesta:</p>
+						<p>{{ ticket.respuesta }}</p>
+					</div>
+				</div>
+
+			{% endif %}
+
+
+			{% if historicos %}
+				<hr class="mb-4">
+				<div class="row ml-2 mr-2">
+					<h2 class="col-12 text-center mt-3 mb-5" style="color:rgb(255, 123, 0);">Histórico de la conversación</h2>
+				</div>
+				<div class="table-responsive">
+					<table class="table table-hover">
+						<tbody>
+							<tr class="bg-success text-light">
+								<th>Fecha</th>
+								<th>Pregunta</th>
+								<th>Respuesta</th>
+							</tr>
+							<tr>
+								{% for historico in historicos %}
+									<tr>
+										<td>{{ historico.fecha ? historico.fecha|date('Y-m-d H:i') }}</td>
+
+										<td>{{ historico.mensaje }}</td>
+
+										<td>{{ historico.respuesta }}</td>
+									</tr>
+								{% endfor %}
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			{% endif %}
+
+
+		{% endblock %}
+	{% endblock %}

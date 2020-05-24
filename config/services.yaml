@@ -23,5 +23,13 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
+    App\Mercure\JwtProvider:
+        arguments:
+            $secret: '%env(MERCURE_JWT_KEY)%'
+
+    App\Mercure\CookieGenerator:
+        arguments:
+            $secret: '%env(MERCURE_JWT_KEY)%'
+
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
